@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body>
+<body style="background-color:lightslategray">
   {% extends "bootstrap/base.html" %}
   {% block content %}
   <div class="container">
 
     <div class="row align-items-center justify-content-center">
 
-      <div class="col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3 align-self-center text-center">
+      <div class="col-sm-offset-2 col-sm-8 col-md-12 col-md-offset-0 align-self-center text-center">
 
 
         <h1 style="margin-top: 50px;">Partner Recommendation</h1>
@@ -23,7 +23,6 @@
         <form action="{{ url_for('match')}}" method="post" class="form-inline">
           <div class="form-group mx-sm-3 mb-2">
             <label class="sr-only">Name</label>
-            <!-- <input required type="text" class="form-control" name="Player" placeholder="Prospеring"> -->
             <select name="Player" id="player" placeholder="Prospеring"
               class="selectpicker show-menu-arrow form-control">
               {% for user in data %}
@@ -40,7 +39,6 @@
               <option value="Trios">Trios</option>
               <option value="Squads">Squads</option>
             </select>
-            <!-- <input required type="text" class="form-control" name="Type" placeholder="Solo"> -->
           </div>
 
           <button type="submit" class="btn btn-primary mb-2">It's Time to Duel 😈</button>
@@ -51,7 +49,7 @@
         {% if error %}
         <p><b>{{error}} 😞</b></p>
         {% endif %}
-
+<!-- 
         {% for player in res %}
 
         <ul class="list-group">
@@ -61,15 +59,115 @@
           </li>
         </ul>
 
-        {% endfor %}
+        {% endfor %} -->
+        <div id="content">
+          {% for i in range(0,len) %}
+          <!-- BEGIN: card -->
+          <div class="card" data-effect="zoom">
+            <button class="card__save  js-save" type="button">
+              <i class="fa  fa-bookmark"></i>
+            </button>
+            <figure class="card__image">
+              <img src="https://c1.staticflickr.com/4/3935/32253842574_d3d449ab86_c.jpg" alt="Short description">
+            </figure>
+            <div class="card__header">
+              <figure class="card__profile">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Neil_Armstrong.jpg"
+                  alt="Short description">
+              </figure>
+            </div>
+            <div class="card__body">
+              <h3 class="card__name">{{res[i][0]}}</h3>
+              <p class="card__job">Hola mundo</p>
+              <p class="card__bio"> American astronaut, engineer, and the first person to walk on the Moon.</p>
+            </div>
+            <div class="card__footer">
+              <p class="card__date">Feb 10 2018</p>
+              <p class=""></p>
+            </div>
+          </div>
+          <!-- END: card -->
+          {% endfor %}
+        </div>
+
+        <br><br><br>
+
+        <div id="content">
+          {% for i in range(len, len*2) %}
+          <!-- BEGIN: card -->
+          <div class="card" data-effect="zoom">
+            <button class="card__save  js-save" type="button">
+              <i class="fa  fa-bookmark"></i>
+            </button>
+            <figure class="card__image">
+              <img src="https://c1.staticflickr.com/4/3935/32253842574_d3d449ab86_c.jpg" alt="Short description">
+            </figure>
+            <div class="card__header">
+              <figure class="card__profile">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Neil_Armstrong.jpg"
+                  alt="Short description">
+              </figure>
+            </div>
+            <div class="card__body">
+              <h3 class="card__name">{{res[i][0]}}</h3>
+              <p class="card__job">Hola mundo</p>
+              <p class="card__bio"> American astronaut, engineer, and the first person to walk on the Moon.</p>
+            </div>
+            <div class="card__footer">
+              <p class="card__date">Feb 10 2018</p>
+              <p class=""></p>
+            </div>
+          </div>
+          <!-- END: card -->
+          {% endfor %}
+        </div>
+
       </div>
 
     </div>
 
-  </div>
-
-  {% endblock %}
+    {% endblock %}
 
 </body>
+
+<script>
+  var demoButtons;
+
+  function start() {
+
+    // Add event "click" to "demo buttons"
+    demoButtons = document.querySelectorAll('.js-modify');
+    for (var i = 0; i < demoButtons.length; i++) {
+      demoButtons[i].addEventListener('click', toggleEffect);
+    }
+
+    // Add event "click" to "save buttons"
+    var saveButtons = document.querySelectorAll('.js-save');
+    for (var i = 0; i < saveButtons.length; i++) {
+      saveButtons[i].addEventListener('click', toggleActive);
+    }
+
+  }
+
+  // Toggle "effect" classes
+  function toggleEffect() {
+    var target = document.querySelector(this.dataset.target);
+    target.dataset.effect = this.dataset.effect;
+
+    for (var i = 0; i < demoButtons.length; i++) {
+      demoButtons[i].classList.remove('active');
+    }
+
+    toggleActive.call(this);
+  }
+
+  // Toggle "active" class
+  function toggleActive() {
+    this.classList.toggle('active');
+  }
+
+  // Invoke "start ()" function
+  window.addEventListener('load', start);
+</script>
 
 </html>

@@ -53,7 +53,7 @@ def match():
         distances[type_of_match + " winRatio"]
         )]
 
-    return render_template('index.html', res=res, data=playersJSON)
+    return render_template('index.html', res=res, data=playersJSON, len = int(len(distances["Player"])/2))
 
 def get_players(features, firstPlayer):
     # Get the dataframe of all players with some specific features
