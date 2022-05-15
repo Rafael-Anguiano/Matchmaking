@@ -1,70 +1,75 @@
 <!DOCTYPE html>
-<html >
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>MacoMaking</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>MacoMaking</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    {% extends "bootstrap/base.html" %}
+  {% extends "bootstrap/base.html" %}
+  {% block content %}
+  <div class="container">
 
-    {% block content %}
-    <div class="container">
+    <div class="row align-items-center justify-content-center">
 
-      <div class="row align-items-center justify-content-center">
-
-        <div class="col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3 align-self-center text-center">
+      <div class="col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3 align-self-center text-center">
 
 
-            <h1 style="margin-top: 50px;">Partner Recommendation</h1>
-            <br>
+        <h1 style="margin-top: 50px;">Partner Recommendation</h1>
+        <br>
 
-            <form action="{{ url_for('match')}}" method="post" class="form-inline">
+        <form action="{{ url_for('match')}}" method="post" class="form-inline">
+          <div class="form-group mx-sm-3 mb-2">
+            <label class="sr-only">Name</label>
+            <!-- <input required type="text" class="form-control" name="Player" placeholder="Prospеring"> -->
+            <select name="Player" id="player" placeholder="Prospеring"
+              class="selectpicker show-menu-arrow form-control">
+              {% for user in data %}
+              <option value='{{user.Player}}' id={{user.id}}>{{user.Player}}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-                <div class="form-group mx-sm-3 mb-2">
-                    <label  class="sr-only">Name</label>
-                    <input required type="text" class="form-control" name="Player" placeholder="Prospеring">
-                </div>
+          <div class="form-group mx-sm-3 mb-2">
+            <label class="sr-only">Recommendations</label>
+            <select name="Type" id="type" class="selectpicker show-menu-arrow form-control">
+              <option value="Solo" selected="selected">Solo</option>
+              <option value="Duos">Duos</option>
+              <option value="Trios">Trios</option>
+              <option value="Squads">Squads</option>
+            </select>
+            <!-- <input required type="text" class="form-control" name="Type" placeholder="Solo"> -->
+          </div>
 
-                <div class="form-group mx-sm-3 mb-2">
-                    <label class="sr-only">Recommendations</label>
-                    <select name="Type" id="type" class="selectpicker show-menu-arrow form-control">
-                        <option value="Solo">Solo</option>
-                        <option value="Duos">Duos</option>
-                        <option value="Trios">Trios</option>
-                        <option value="Squads">Squads</option>
-                    </select>
-                    <!-- <input required type="text" class="form-control" name="Type" placeholder="Solo"> -->
-                </div>
+          <button type="submit" class="btn btn-primary mb-2">It's Time to Duel 😈</button>
 
-                <button type="submit" class="btn btn-primary mb-2">It's Time to Duel 😈</button>
+        </form>
+        <br>
+        <br>
+        {% if error %}
+        <p><b>{{error}} 😞</b></p>
+        {% endif %}
 
-            </form>
+        {% for player in res %}
 
-            <br>
-            <br>
-            {% if error %}
-                <p><b>{{error}} 😞</b></p>
-            {% endif %}
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{player[0]}}
+            <span class="badge badge-primary badge-pill">{{player[1]}}%</span>
+          </li>
+        </ul>
 
-            {% for player in res %}
-
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{player[0]}}
-                <span class="badge badge-primary badge-pill">{{player[1]}}%</span>
-                </li>
-            </ul>
-
-          {% endfor %}
-        </div>
-
+        {% endfor %}
       </div>
 
     </div>
 
+  </div>
+
   {% endblock %}
 
 </body>
+
 </html>

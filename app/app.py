@@ -1,20 +1,25 @@
 import pandas as pd
 import numpy as np
 from scipy import spatial
+import os
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, json
 from flask_bootstrap import Bootstrap
-
+import sys
 
 app = Flask(__name__)
 Bootstrap(app)
 
 df_complete = pd.read_csv('df_complete.csv').drop(['Unnamed: 0'],axis=1)
-
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+json_url = os.path.join(SITE_ROOT, "static/data", "players.json")
+playersJSON = json.load(open(json_url, encoding="utf8"))
 # *** START Flask server code ***
-@app.route('/')
+@app.route('/', methods=["GET"])
 def home():
-    return render_template('index.html')
+    return render_template('index.html', data=playersJSON)
+
+    # return render_template('index.html')
 
 @app.route('/match',methods=['POST'])
 def match():
@@ -22,11 +27,14 @@ def match():
     p1 = input[0]
     type_of_match = input[1]
 
+    print(p1, file=sys.stderr)
+    print(type_of_match, file=sys.stdout)
+
     # Determine the number of returned players
-    if type_of_match == 'Solo': n = 1
-    if type_of_match == 'Duos': n = 3
-    if type_of_match == 'Trios': n = 5
-    if type_of_match == 'Squads': n = 7
+    if type_of_match == 'Solo': n = 2
+    if type_of_match == 'Duos': n = 4
+    if type_of_match == 'Trios': n = 6
+    if type_of_match == 'Squads': n = 8
     
     # Get the features depending of each type of match
     features = ["Player", type_of_match + " kd", type_of_match + " score", type_of_match + " winRatio"]
@@ -36,7 +44,6 @@ def match():
 
     # Apply the euclidean distance and return the most nearly players
     distances = cosine_distance(p1, Players, n)
-    #res = ['Ranger', 'Rafa', 'Pablo', 'Cc', 'Leo', 'Jonhy', 'Darío']
 
     res = [[x, y, z, j, k] for x, y, z, j, k in zip(
         distances["Player"], 
@@ -46,7 +53,7 @@ def match():
         distances[type_of_match + " winRatio"]
         )]
 
-    return render_template('index.html', res=res)
+    return render_template('index.html', res=res, data=playersJSON)
 
 def get_players(features, firstPlayer):
     # Get the dataframe of all players with some specific features
@@ -65,12 +72,15 @@ def cosine_distance(p1, Players, n):
 
     Distances = [] # Variable to save the distances
     for p2 in PlayersClear:
-        Distances.append(1 - spatial.distance.cosine(p1, p2))
+        if (np.sum(p2) == 0):
+            Distances.append(0)
+            continue
+        Distances.append((1 - spatial.distance.cosine(p1[0], p2))*100)
     
     # Adjust the dataframe
     Players.insert(1, "Matching %", Distances) # Add the column of Matching % with the distances
     Players = Players.sort_values(by=['Matching %'], ascending=False) # Sort by Matching %
-    Players = Players.drop(0, axis= 0) # Drop the first row, because the first is the same as p1
+    #Players = Players.drop(0, axis= 0) # Drop the first row, because the first is the same as p1
     return Players.head(n) # Return the fist n records
 
 if __name__ == "__main__":
