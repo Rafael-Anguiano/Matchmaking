@@ -29,13 +29,13 @@
 
                 <div class="form-group mx-sm-3 mb-2">
                     <label class="sr-only">Recommendations</label>
-                    <!-- <select name="Type" id="type" class="selectpicker show-menu-arrow form-control">
+                    <select name="Type" id="type" class="selectpicker show-menu-arrow form-control">
                         <option value="Solo">Solo</option>
                         <option value="Duos">Duos</option>
                         <option value="Trios">Trios</option>
                         <option value="Squads">Squads</option>
-                    </select> -->
-                    <input required type="text" class="form-control" name="Type" placeholder="Solo">
+                    </select>
+                    <!-- <input required type="text" class="form-control" name="Type" placeholder="Solo"> -->
                 </div>
 
                 <button type="submit" class="btn btn-primary mb-2">It's Time to Duel 😈</button>
@@ -49,12 +49,12 @@
             {% endif %}
 
 
-            {% for movie in res %}
+            {% for player in res %}
 
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{movie[0]}}
-                <span class="badge badge-primary badge-pill">{{movie[1]}}%</span>
+                {{player}}
+                <!-- <span class="badge badge-primary badge-pill">{{player[1]}}%</span> -->
                 </li>
             </ul>
 

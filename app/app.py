@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from scipy import spatial
+from scipy.spatial import distance
 
 from flask import Flask, request, jsonify, render_template
 from flask_bootstrap import Bootstrap
@@ -35,7 +35,7 @@ def cosine_distance(p1, Players, n):
 
     #Iterate for each Player
     for p2 in PlayersClear:
-        Distances.append(1 - spatial.distance.cosine(p1, p2)) # Calculate the distance
+        Distances.append(1) # Calculate the distance
 
     # Adjust the dataframe
     Players.insert(1, "Matching %", Distances) # Add the column of Matching % with the distances
@@ -63,7 +63,10 @@ def match():
     [Players, p1] = get_players(features, p1)
     
     # Apply the euclidean distance and return the most nearly players
-    return cosine_distance(p1, Players, n)
+    # dist = cosine_distance(p1, Players, n)
+    res = ['Ranger', 'Rafa', 'Pablo', 'Cc', 'Leo', 'Jonhy', 'Darío']
+    return render_template('index.html', res=res)
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port='5000', debug=True)
