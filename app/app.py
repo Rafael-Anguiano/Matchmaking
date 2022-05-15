@@ -35,7 +35,7 @@ def cosine_distance(p1, Players, n):
 
     #Iterate for each Player
     for p2 in PlayersClear:
-        Distances.append(1) # Calculate the distance
+        Distances.append(1 - distance.cosine(p1, p2)) # Calculate the distance
 
     # Adjust the dataframe
     Players.insert(1, "Matching %", Distances) # Add the column of Matching % with the distances
@@ -63,7 +63,7 @@ def match():
     [Players, p1] = get_players(features, p1)
     
     # Apply the euclidean distance and return the most nearly players
-    # dist = cosine_distance(p1, Players, n)
+    #dist = cosine_distance(p1, Players, n)
     res = ['Ranger', 'Rafa', 'Pablo', 'Cc', 'Leo', 'Jonhy', 'Darío']
     return render_template('index.html', res=res)
 
