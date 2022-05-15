@@ -48,13 +48,12 @@
                 <p><b>{{error}} 😞</b></p>
             {% endif %}
 
-
             {% for player in res %}
 
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{player}}
-                <!-- <span class="badge badge-primary badge-pill">{{player[1]}}%</span> -->
+                {{player[0]}}
+                <span class="badge badge-primary badge-pill">{{player[1]}}%</span>
                 </li>
             </ul>
 
