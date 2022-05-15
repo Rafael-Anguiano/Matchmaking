@@ -17,7 +17,7 @@ playersJSON = json.load(open(json_url, encoding="utf8"))
 # *** START Flask server code ***
 @app.route('/', methods=["GET"])
 def home():
-    return render_template('index.html', data=playersJSON)
+    return render_template('index.html', data=playersJSON, len = 0)
 
     # return render_template('index.html')
 
