@@ -1,17 +1,18 @@
 import pandas as pd
 import numpy as np
 from scipy import spatial
-import os
-from flask import Flask, request, render_template, json
+import json
+from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 Bootstrap(app)
 
 df_complete = pd.read_csv('df_complete.csv').drop(['Unnamed: 0'],axis=1)
-SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-json_url = os.path.join(SITE_ROOT, "static/data", "players.json")
-playersJSON = json.load(open(json_url, encoding="utf8"))
+
+with open('players.json', encoding="utf8") as json_file:
+    playersJSON = json.load(json_file)
+
 # *** START Flask server code ***
 @app.route('/', methods=["GET"])
 def home():
