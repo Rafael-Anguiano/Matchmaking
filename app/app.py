@@ -2,10 +2,8 @@ import pandas as pd
 import numpy as np
 from scipy import spatial
 import os
-
-from flask import Flask, request, jsonify, render_template, json
+from flask import Flask, request, render_template, json
 from flask_bootstrap import Bootstrap
-import sys
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -19,16 +17,11 @@ playersJSON = json.load(open(json_url, encoding="utf8"))
 def home():
     return render_template('index.html', data=playersJSON, len = 0)
 
-    # return render_template('index.html')
-
 @app.route('/match',methods=['POST'])
 def match():
     input = list(request.form.values())
     p1 = input[0]
     type_of_match = input[1]
-
-    print(p1, file=sys.stderr)
-    print(type_of_match, file=sys.stdout)
 
     # Determine the number of returned players
     if type_of_match == 'Solo': n = 2
@@ -80,7 +73,6 @@ def cosine_distance(p1, Players, n):
     # Adjust the dataframe
     Players.insert(1, "Matching %", Distances) # Add the column of Matching % with the distances
     Players = Players.sort_values(by=['Matching %'], ascending=False) # Sort by Matching %
-    #Players = Players.drop(0, axis= 0) # Drop the first row, because the first is the same as p1
     return Players.head(n) # Return the fist n records
 
 if __name__ == "__main__":

@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body style="background-color:lightslategray">
+<body
+  style="background-image: url('https://xbox-store-checker.com/assets/upload/game/2019/09/optimize/bw3qh36c8c1n-background.jpg')">
   {% extends "bootstrap/base.html" %}
   {% block content %}
   <div class="container">
@@ -17,8 +18,7 @@
       <div class="col-sm-offset-2 col-sm-8 col-md-12 col-md-offset-0 align-self-center text-center">
 
 
-        <h1 style="margin-top: 50px;">Partner Recommendation</h1>
-        <br>
+        <h1 style="margin-top: 50px; color: aliceblue; font-family:'Courier New'';">MACO - MAKING</h1>
 
         <form action="{{ url_for('match')}}" method="post" class="form-inline">
           <div class="form-group mx-sm-3 mb-2">
@@ -44,7 +44,7 @@
           <button type="submit" class="btn btn-primary mb-2">It's Time to Duel 😈</button>
 
         </form>
-        <br>
+
         <br>
         {% if error %}
         <p><b>{{error}} 😞</b></p>
@@ -91,8 +91,6 @@
           {% endfor %}
         </div>
 
-        <br><br>
-
         <div id="content">
           {% for i in range(len, len*2) %}
           <!-- BEGIN: card -->
@@ -131,7 +129,6 @@
     {% endblock %}
 
 </body>
-
 <script>
   var demoButtons;
 
